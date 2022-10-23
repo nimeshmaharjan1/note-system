@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+const { Schema } = mongoose;
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -10,12 +10,10 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
-  roles: [
-    {
-      type: String,
-      default: "employee",
-    },
-  ],
+  roles: {
+    type: [{ type: String }],
+    default: ["employee"],
+  },
   isActive: {
     type: Boolean,
     default: true,
@@ -24,4 +22,4 @@ const userSchema = new mongoose.Schema({
 
 userSchema.set("timestamps", true);
 
-export default mongoose.model("users", userSchema);
+export default mongoose.models.users || mongoose.model("users", userSchema);

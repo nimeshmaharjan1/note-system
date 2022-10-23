@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const AutoIncrement = require("mongoose-sequence");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const noteSchema = new mongoose.Schema({
   user: {
@@ -30,4 +30,4 @@ noteSchema.plugin(AutoIncrement, {
   start_seq: 500,
 });
 
-export default mongoose.model("notes", noteSchema);
+export default mongoose.models.notes || mongoose.model("notes", noteSchema);
