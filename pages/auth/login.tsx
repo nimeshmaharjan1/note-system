@@ -1,9 +1,10 @@
 import React from "react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 const Login = () => {
-  const session = useSession();
-  console.log(session);
+  const router = useRouter();
+  console.log(router);
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const submit = async () => {
