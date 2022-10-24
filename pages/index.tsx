@@ -1,7 +1,9 @@
 import MainLayout from "@components/Layout";
+import { useSession } from "next-auth/react";
 import { NextPageWithLayout } from "./_app";
 
 const Home: NextPageWithLayout = () => {
+  const { data: session } = useSession();
   return <div>Hello</div>;
 };
 

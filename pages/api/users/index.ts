@@ -10,21 +10,12 @@ import bcrypt from "bcryptjs";
 import applyRateLimit from "@lib/rate-limit";
 
 import jwt from "jsonwebtoken";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(req: any, res: NextApiResponse) {
-  const authHeader = req.headers.authorization || (req.headers.Authorization as string);
-
-  if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err: any, decoded: any) => {
-    if (err) return res.status(403).json({ message: "Forbidden", err });
-    req.user = decoded.UserInfo.username;
-    req.roles = decoded.UserInfo.roles;
-  });
+  const session = await unstable_getServerSession(req, res, authOptions);
+  if (!session) return res.status(401).json({ message: "Not authorized to view this content." });
   try {
     await applyRateLimit(req, res);
   } catch (error) {

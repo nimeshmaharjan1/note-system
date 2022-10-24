@@ -1,6 +1,19 @@
 import React from "react";
-
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 const Login = () => {
+  const session = useSession();
+  console.log(session);
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const submit = async () => {
+    const response = await signIn("credentials", {
+      redirect: true,
+      username,
+      password,
+    });
+    console.log("AFter submit: ", response);
+  };
   return (
     <div className=" bg-gray-100 min-h-screen min-w-[100vw]">
       <div className="mx-auto max-w-6xl p-12 md:pt-24">
@@ -12,45 +25,44 @@ const Login = () => {
             </div>
           </div>
           <div className="md:w-1/2 flex justify-start mt-5 md:justify-end w-full ">
-            <div className="shadow-lg  flex-auto max-w-sm p-10 pb-20">
+            <div className="shadow-lg  flex flex-col justify-center max-w-sm p-10">
               <div className="w-full">
                 <div className="font-bold h-6 mt-3 text-gray-600 text-xs leading-8 uppercase">
-                  <span className="text-red-400 mr-1">*</span> First Name
+                  <span className="text-red-400 mr-1">*</span> Username
                 </div>
                 <div className="my-2 bg-white p-1 flex border border-gray-200 rounded">
                   {" "}
                   <input
-                    placeholder="Jhon"
+                    placeholder="Type here"
+                    onChange={(e) => setUsername(e.target.value)}
+                    type="text"
                     className="p-1 px-2 appearance-none outline-none w-full text-gray-800"
                   />{" "}
                 </div>
               </div>
               <div className="w-full">
                 <div className="font-bold h-6 mt-3 text-gray-600 text-xs leading-8 uppercase">
-                  <span className="text-red-400 mr-1">*</span> Last Name
+                  <span className="text-red-400 mr-1">*</span> Password
                 </div>
                 <div className="my-2 bg-white p-1 flex border border-gray-200 rounded">
                   {" "}
                   <input
-                    placeholder="Doe"
-                    className="p-1 px-2 appearance-none outline-none w-full text-gray-800"
-                  />{" "}
-                </div>
-              </div>
-              <div className="w-full">
-                <div className="font-bold h-6 mt-3 text-gray-600 text-xs leading-8 uppercase">
-                  <span className="text-red-400 mr-1">*</span> Email
-                </div>
-                <div className="my-2 bg-white p-1 flex border border-gray-200 rounded">
-                  {" "}
-                  <input
-                    placeholder="jhon@doe.com"
+                    type="password"
+                    placeholder="Type here"
+                    onChange={(e) => setPassword(e.target.value)}
                     className="p-1 px-2 appearance-none outline-none w-full text-gray-800"
                   />{" "}
                 </div>
               </div>
               <div className="text-center">
-                <button className="btn btn-accent mt-3 w-full">Submit</button>
+                <button className="btn btn-accent mt-3 w-full" onClick={submit}>
+                  Submit
+                </button>
+              </div>
+              <div className="mt-4">
+                <Link href="/">
+                  <button className="btn btn-sm btn-ghost">Go Home</button>
+                </Link>
               </div>
             </div>
           </div>

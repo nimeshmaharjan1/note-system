@@ -1,6 +1,9 @@
+import { useSession } from "next-auth/react";
 import React from "react";
 
 const Header = () => {
+  const { data: session, status } = useSession();
+  console.log(session);
   return (
     <div className="shadow-md shadow-gray-400/10 mb-4">
       <div className="navbar bg-base-100 h-20 container">

@@ -12,6 +12,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@next-auth/mongodb-adapter": "^1.1.1",
     "@reduxjs/toolkit": "^1.8.6",
     "@types/jsonwebtoken": "^8.5.9",
     "bcrypt": "^5.1.0",
@@ -23,9 +24,11 @@
     "express-slow-down": "^1.5.0",
     "jose": "^4.10.3",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.11.0",
     "mongoose": "^6.5.2",
     "mongoose-sequence": "^5.3.1",
     "next": "12.3.1",
+    "next-auth": "^4.15.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.4",
