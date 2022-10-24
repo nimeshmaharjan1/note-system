@@ -2,14 +2,14 @@ import React from "react";
 
 const Login = () => {
   return (
-    <div className=" bg-primary min-h-screen min-w-[100vw]">
-      <div className="mx-auto max-w-6xl p-12">
+    <div className=" bg-gray-100 min-h-screen min-w-[100vw]">
+      <div className="mx-auto max-w-6xl p-12 md:pt-24">
         <div className="flex flex-col md:flex-row justify-center gap-3">
           <div className="md:w-1/2 max-w-md flex flex-col justify-center">
-            <div className="md:text-4xl text-xl font-black uppercase">
-              Awesome tool for your future team
+            <div className="lg:text-7xl md:text-4xl text-5xl font-black uppercase">
+              HI! <br />
+              <span className="text-accent text-3xl lg:text-5xl">Welcome Back</span>
             </div>
-            <div className="text-xl mt-4">Develop your workforce and make it a selling machine</div>
           </div>
           <div className="md:w-1/2 flex justify-start mt-5 md:justify-end w-full ">
             <div className="shadow-lg  flex-auto max-w-sm p-10 pb-20">

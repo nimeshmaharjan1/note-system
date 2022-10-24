@@ -4,9 +4,32 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import User from "@models/user";
 import Note from "@models/note";
 
-import bcrypt from "bcryptjs";
+import { getCookie } from "cookies-next";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+import bcrypt from "bcryptjs";
+import applyRateLimit from "@lib/rate-limit";
+
+import jwt from "jsonwebtoken";
+
+export default async function handler(req: any, res: NextApiResponse) {
+  const authHeader = req.headers.authorization || (req.headers.Authorization as string);
+
+  if (!authHeader?.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err: any, decoded: any) => {
+    if (err) return res.status(403).json({ message: "Forbidden", err });
+    req.user = decoded.UserInfo.username;
+    req.roles = decoded.UserInfo.roles;
+  });
+  try {
+    await applyRateLimit(req, res);
+  } catch (error) {
+    return res.status(429).json({ message: "Too many requests. Please wait 60 seconds." });
+  }
   await connectDb();
   const { method, body } = req;
   switch (method) {
