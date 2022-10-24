@@ -1,43 +1,36 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
+
+import { GiAutoRepair } from "react-icons/gi";
 
 const Header = () => {
   const { data: session, status } = useSession();
-  console.log(session);
+  const isAdmin = session?.user?.email === "admin";
   return (
-    <div className="shadow-md shadow-gray-400/10 mb-4">
+    <header className="shadow-md shadow-gray-400/10 mb-4">
       <div className="navbar bg-base-100 h-20 container">
-        <div className="flex-1 text-2xl font-extrabold">DanD</div>
-        <div className="flex-none gap-2">
-          <div className="form-control">
-            <input type="text" placeholder="Search" className="input input-bordered" />
-          </div>
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img src="https://placeimg.com/80/80/people" />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
-            </ul>
-          </div>
+        <div className="flex-1 text-2xl font-extrabold flex items-center gap-1">
+          <GiAutoRepair size={32}></GiAutoRepair>
+          <span>DanD</span>
+        </div>
+        <div className="flex items-center gap-4">
+          {session ? (
+            <>
+              <button className="btn-sm btn-primary btn">{session?.user?.name}</button>
+              {isAdmin && <button className="btn-sm btn-ghost btn">Add User</button>}
+              <button className="btn btn-sm btn-ghost" onClick={() => signOut()}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link href="/api/auth/signin">
+              <button className="btn btn-sm btn-accent">Login</button>
+            </Link>
+          )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
